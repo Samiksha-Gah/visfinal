@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=" dance" />
+    <meta name="keywords" content="dance, new south" />
+    <meta name="author" content="samiksha" />
+    <title> new south studio </title>
+    <!--favicon-img--> 
+    <link rel="icon" type="image/jpg" href="images/favicon.png">
+    <!--favicon-img-->
+    <!--main css file should not be removed -->
+    <link rel="stylesheet" href="css/index.css">
+    <!--main css file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+    <script>
+        // JavaScript code for dynamic display of current time
+        document.addEventListener("DOMContentLoaded", function() {
+            displayCurrentTime(); // Display the current time on page load
+            setInterval(displayCurrentTime, 1000); // Update every second
+        });
+
+        function displayCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+
+            // Format the time as HH:MM:SS
+            const currentTimeString = `${hours}:${minutes}:${seconds}`;
+
+            // Update the HTML to display the current time
+            const currentTimeElement = document.getElementById("current-time");
+            currentTimeElement.textContent = `at the time ${currentTimeString}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            displayCurrentGroup(); // Display the current dance group on page load
+            setInterval(displayCurrentGroup, 60000); // Update every minute
+        });
+
+        function displayCurrentGroup() {
+            const currentTime = new Date();
+            const currentDay = currentTime.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+            const currentHour = currentTime.getHours();
+            const currentMinute = currentTime.getMinutes();
+
+            // Schedule for each day
+            const schedule = [
+                // Monday
+                [
+                    { startTime: "18:30", endTime: "21:00", group: "Princeton University Ballet" },
+                    { startTime: "21:00", endTime: "23:00", group: "Expressions" },
+                    { startTime: "11:00", endTime: "13:00", group: "BAC" }
+                ],
+                // Tuesday
+                [
+                    { startTime: "18:30", endTime: "20:30", group: "Aerial Arts" },
+                    { startTime: "20:30", endTime: "23:00", group: "Expressions" },
+                    { startTime: "23:00", endTime: "01:00", group: "BodyHype" }
+                ],
+                // Wednesday
+                [
+                    { startTime: "18:30", endTime: "21:30", group: "Aerial Arts" },
+                    { startTime: "21:30", endTime: "23:30", group: "PUB" },
+                    { startTime: "23:30", endTime: "01:00", group: "Expressions" }
+                ],
+                // Thursday
+                [
+                    { startTime: "18:30", endTime: "21:00", group: "PUB" },
+                    { startTime: "21:00", endTime: "23:00", group: "Aerial Arts" },
+                    { startTime: "23:00", endTime: "01:00", group: "Disiac" }
+                ],
+                // Friday
+                [
+                    { startTime: "16:30", endTime: "19:00", group: "Kalaa Company" },
+                    { startTime: "19:00", endTime: "21:00", group: "Aerial Arts" },
+                    { startTime: "21:00", endTime: "23:00", group: "DoroBucci" },
+                    { startTime: "23:00", endTime: "01:00", group: "PUB" }
+                ],
+                // Saturday
+                [
+                    { startTime: "09:00", endTime: "13:00", group: "BodyHype" },
+                    { startTime: "13:00", endTime: "16:00", group: "BAC" },
+                    { startTime: "16:00", endTime: "19:00", group: "Raqs" },
+                    { startTime: "19:00", endTime: "20:00", group: "KokoPops" },
+                    { startTime: "20:00", endTime: "22:00", group: "Aerial Arts" },
+                    { startTime: "22:00", endTime: "23:30", group: "DoroBucci" },
+                    { startTime: "23:30", endTime: "01:00", group: "KokoPops" }
+                ],
+                // Sunday
+                [
+                    { startTime: "09:00", endTime: "10:00", group: "PUB" },
+                    { startTime: "10:00", endTime: "13:00", group: "Expressions" },
+                    { startTime: "13:00", endTime: "16:00", group: "TapCats" },
+                    { startTime: "16:00", endTime: "19:00", group: "Mas Flow" },
+                    { startTime: "19:00", endTime: "21:00", group: "Bhangra" },
+                    { startTime: "21:00", endTime: "23:00", group: "PUB" },
+                    { startTime: "23:00", endTime: "01:00", group: "TapCats" }
+                ]
+            ];
+
+            // Get the schedule for the current day
+            const currentSchedule = schedule[currentDay];
+
+            // Find the group for the current time
+            let currentGroup = null;
+            currentSchedule.forEach(slot => {
+                const [startHour, startMinute] = slot.startTime.split(":").map(Number);
+                const [endHour, endMinute] = slot.endTime.split(":").map(Number);
+
+                if (currentHour > startHour || (currentHour === startHour && currentMinute >= startMinute)) {
+                    if (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
+                        currentGroup = slot.group;
+                    }
+                }
+            });
+
+            // Update the HTML to display the current group or "Not Occupied by PAC Dance Group"
+            const currentGroupElement = document.getElementById("current-group");
+            if (currentGroup) {
+                currentGroupElement.textContent = `occupied by ${currentGroup}`;
+            } else {
+                currentGroupElement.textContent = "not occupied by a PAC dance group";
+            }
+        }
+    </script>
+</head>
+<body>
+    <!--contains all the div-->
+    <div id="all">
+    <!--mouse  follower-->
+        <div class="cursor"></div>
+    <!--mouse  follower-->
+    <!--loader-->
+        <div id="loader">
+            <span class="color">dance of</span> new south 
+        </div>
+    <!--loader-end-->
+    <!--link-screen-->
+        <div id="breaker">
+        </div>
+        <div id="breaker-two">
+        </div>
+    <!--link-screen-->
+        <!--Main-Section-->
+        <!--Navigator-fullscreen-->
+        <div id="navigation-content">
+            <div class="logo">
+                <img src="images/willy wonka logo.png" alt="logo">
+            </div>
+            <div class="navigation-close">
+                <span class="close-first"></span>
+                <span class="close-second"></span>
+            </div>
+            <div class="navigation-links">
+                <a href="#all" data-text="HOME" id="home-link">home</a>
+                <a href="#about" data-text="ABOUT" id="about-link">about</a>
+                <a href="#studios" data-text="STUDIOS" id="portfolio-link">studios</a>
+                <a href="#blog" data-text="BLOG" id="blog-link">blog</a>
+                <a href="#contact" data-text="CONTACT" id="contact-link">contact</a>
+            </div>
+            
+        </div>
+        <!--Navigator-Fullscreen END-->
+          <!--Home Page-->
+        <!--Menubar-->
+        <div id="navigation-bar">
+            <img src="images/willy wonka logo.png" alt="logo">
+            <div class="menubar">
+                <span class="first-span"></span>
+                <span class="second-span"></span>
+                <span class="third-span"></span>
+            </div>
+        </div>
+        <!--Menubar End-->
+          <!--Header-->
+          <!--LINK: HOME HERE-->
+        <div id="header">
+            <div id="particles"></div>
+            <div class="header-content">
+                <div class="header-content-box">
+                <div class="firstline"><span class="color">dance of </span>new south</div>
+                <div class="secondline">
+                we are
+                <span class="txt-rotate color" data-period="1200"data-rotate='[ " naacho.", " princeton bhangra.", " disiac.", " expressions.", " BAC.", " highsteppers.", " sympho.", " mas flow.", " triple 8.", " PUB.", " raks odalisque.", " tapcats.", " dorobucci.", " bodyhype." ]'></span>
+                <span class="slash">|</span>
+        </div>
+                 
+            </div>
+            </div>
+            <!--header image
+            <div class="header-image">
+            <img src="breaker.png" alt="logo">
+            </div>
+            header image end-->
+        </div>
+           <!--Header End-->
+        <!--HomePage End-->
+        <!--Main-Section End-->
+        <!--about-->
+        <div id="about">
+            <!--about content-->
+            <!--LINK: ABOUT HERE-->
+            <div class="about-content">
+                <div class="about-header">
+                    about <span class="color">new south</span>
+                    <span class="header-caption">  <span class="color">166 university pl, princeton, nj 08540</span></span>
+                </div>
+                <div class="about-main">
+                    <!--about description-->
+                    <div class="about-first-paragraph wow">
+                        <br>
+                        <span class="about-first-line">
+                            we're not just a dance studio; we're a community of  
+                            <span class="txt-rotate color" data-period="1200"data-rotate='[ " artists ", " dreamers "," innovators ", "creators ", "visionaries ", "pioneers "]'></span>
+                             at princeton university </span>
+                        <br>
+                       <span class="about-second-line">our mission is to ignite passion, foster creativity, and inspire greatness through the art of dance.</span>
+                       <div id="test12">
+                    </div>
+                       
+
+                    </div>
+                </div>
+            </div>
+        
+            </div>
+            <br>
+            <!--services start-->
+             <!--LINK: STUDIOS HERE-->
+            <div id="portfolio">
+            <!--services header-->
+                    <div class="services-heading wow">
+                        <span class="color">our </span> studios
+                    </div>
+            <!--services header end-->
+            <!--services content-->
+                    <div class="services-content">
+                           <div class="service-one service wow">
+                               <div class="service-img">
+                               <img src="images/flyingwoman.png" alt="image">
+                               </div>
+                               <div class="service-description">
+                                <h2>new south main</h2>
+                                <p>big. nice. bright. crisp audio. auditions happen here. that's why it's the main character. </p>
+                               </div>
+                           </div>
+                           <div class="service-two service wow">
+                               <div class="service-img">
+                               <img src="images/camcoder.png" alt="image">
+                               </div>
+                               <div class="service-description">
+                                <h2>new south theatre</h2>
+                                <p>could probably watch a movie in here. super big. a big dark. not for PAC groups. </p>
+                               </div>
+                           </div>
+                           <div class="service-three service wow">
+                            <div class="service-img">
+                               <img src="images/musicnote.png" alt="image">
+                            </div>
+                            <div class="service-description">
+                                <h2>new south warm up</h2>
+                                <p>super tiny. bad ventilation. sweaty. 'warm up' warms up fast. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--services content end
+            <!--services end-->
+             <!--LINK: CURRENTLY HOSTING HERE-->
+        <!--about end-->
+        <!--portfolio-->
+        <div id="portfolio">
+                <div id="portfolio"></div>
+            <div class="portfolio-header"> <span class="color"> currently </span> hosting
+                <span class ="header-caption"> <div id="current-time"></div> </span>
+                <br>
+                
+            <span class ="header-caption"> new south main is... <span class="color"> </span></span>
+ <div id="current-group"></div>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+
+</div>
+</div>
+<div id="blog">
+ <!--LINK: BLOG HERE-->
+        <!--blog-->
+        
+        <div class="blog-header"> news </span>
+            <span class ="header-caption"> the latest <span class="color"> happenings </span></span></div>
+            <div class="blog-content">
+                 <div class="blogs">
+                     <a href="#">
+                     <div class="img">
+                        <img src="images/naachopic.png" alt="blog-one">
+                        <div class="blog-date">March 29</div>
+                     </div>
+                     <div class="blog-text">
+                         <h3>naacho</h3>
+                         <p>naacho, princeton's multi-style south asian dance group, sees a full house in richardson for their show "shastra: the rise of chaos."</p>
+                     </div></a>
+                 </div>      
+                 <div class="blogs">
+                    <a href="#">
+                    <div class="img">
+                        <img src="images/bodyhype.png" alt="blog-two">
+                        <div class="blog-date">upcoming</div>
+                    </div>
+                    <div class="blog-text">
+                        <h3>bodyhype</h3>
+                        <p>
+                            bodyhype dance company presents "pearl" at theatre intime with showtimes on thursday 4/25, friday 4/26, and saturday 4/27.</p>
+                    </div></a>
+                </div> 
+            </div>
+        </div>
+        <!--blog end-->
+        <!--contact-->
+         <!--LINK: CONTACT HERE-->
+     <div id="contact">
+            <!--Contact form-->
+            <!--Contact information-->
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+             <div class="contact-info">
+                <div class="contact-info-header">
+                    contact info
+                </div>
+                <div class="contact-info-content">
+                <div class="contect-info-content-line">
+                    <img src="./images/icon-name.png" class="icon" alt="name-icon">
+                    <div class="contact-info-icon-text">
+                        <h6>website</h6>
+                        <p>pac.princeton.edu</p>
+                  </div>
+                </div>
+                <div class="contect-info-content-line">
+                  <img src="./images/icon-location.png" class="icon" alt="location-icon">
+                  <div class="contact-info-icon-text">
+                      <h6>address</h6>
+                      <p>152-166 University Pl</p>
+                </div>
+              </div>
+              <div class="contect-info-content-line">
+                  <img src="./images/icon-phone.png" class="icon" alt="phone-icon">
+                  <div class="contact-info-icon-text">
+                      <h6>call</h6>
+                      <p>(609) 258-8300</p>
+                </div>
+              </div>
+              
+              <div class="contect-info-content-line">
+                  <img src="./images/icon-email.png" class="icon" alt="email-icon">
+                  <div class="contact-info-icon-text">
+                      <h6>email</h6>
+                      <p>ppac@princeton.edu</p>
+                </div>
+              </div>
+                </div>
+            <!--Contact information end-->
+           </div>
+        </div>
+        <!--contact end-->
+    </div>
+    <!--all the divisions-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/particles.min.js"></script>
+    <script src="js/index.js"></script>
+    <!--particles script from vincent-->
+    <script>
+  particlesJS("particles", {"particles":{"number":{"value":40,"density":{"enable":true,"value_area":800}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":6,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":200,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});
+    </script>
+
+</body>
+</html>
